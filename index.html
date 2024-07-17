@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decodificador de Texto</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="container">
+        <section class="esquerda">
+            <img class="logo-alura" src="Frame 6.png" alt="Logotipo Alura">
+            <form>
+                <textarea id="textoEntrada" placeholder="Digite seu texto"></textarea>
+                <div class="alerta">
+                    <img src="bi_exclamation-circle-fill.png"> 
+                    <span>Apenas letras minúsculas e sem acento.</span>
+                </div>
+                <div class="botoes">
+                    <button type="button" class="bt-cripto" onclick="criptografar()" aria-label="Criptografar texto">Criptografar</button>
+                    <button type="button" class="bt-descripto" onclick="descriptografar()" aria-label="Descriptografar texto">Descriptografar</button>
+                </div>
+            </form>
+        </section>
+        <section class="direita">
+            <div class="sem-retorno">
+                <img src="High quality products 1 1.png" id="mensagem-nao-encontrada" alt="Nenhuma mensagem encontrada">
+                <h3 class="titulo-sem-retorno">Nenhuma mensagem encontrada</h3>
+                <p>Digite um texto que você deseja criptografar ou descriptografar</p>
+            </div>
+            <div id="resultado" class="texto-criptografado d-none">
+                <p></p>
+                <button class="bt-copiar" id="copiar" onclick="copiarTexto()">Copiar</button>
+            </div>          
+        </section>
+    </main>
+    
+    <script>
+        function criptografar() {
+            let texto = document.getElementById("textoEntrada").value.trim().toLowerCase();
+            if (texto === "") {
+                mostrarAlerta("Por favor, insira um texto.");
+                return;
+            }
+            let resultado = texto.replace(/e/g, "enter")
+                                .replace(/i/g, "imes")
+                                .replace(/a/g, "ai")
+                                .replace(/o/g, "ober")
+                                .replace(/u/g, "ufat");
+            mostrarResultado(resultado);
+        }
+
+        function descriptografar() {
+            let texto = document.getElementById("textoEntrada").value.trim().toLowerCase();
+            if (texto === "") {
+                mostrarAlerta("Por favor, insira um texto.");
+                return;
+            }
+            let resultado = texto.replace(/enter/g, "e")
+                                .replace(/imes/g, "i")
+                                .replace(/ai/g, "a")
+                                .replace(/ober/g, "o")
+                                .replace(/ufat/g, "u");
+            mostrarResultado(resultado);
+        }
+
+        function mostrarResultado(resultado) {
+            document.getElementById("resultado").querySelector("p").textContent = resultado;
+            document.querySelector('.sem-retorno').style.display = 'none';
+            document.querySelector('.texto-criptografado').classList.remove('d-none');
+        }
+
+        function copiarTexto() {
+            let texto = document.getElementById("resultado").querySelector("p").innerText;
+            navigator.clipboard.writeText(texto).then(() => {
+                alert("Texto copiado para a área de transferência!");
+            });
+        }
+
+        function mostrarAlerta(mensagem) {
+            let alerta = document.getElementById("alerta");
+            alerta.querySelector("span").textContent = mensagem;
+            alerta.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
